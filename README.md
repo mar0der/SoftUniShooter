@@ -1,0 +1,1 @@
+This game is made by the team PAPAYA for SofUni`s JS Basics course
