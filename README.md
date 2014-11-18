@@ -1,18 +1,18 @@
 ﻿This game is made by the team PAPAYA for SofUni`s JS Basics course
 
 find pictures for and clean them up:
-C# - Bill Gates
-C - Dennis Ritchie
-C++ - Bjarne_Stroustrup
-JAVA - James_Gosling
-JS - Brendan_Eich
-PHP - Rasmus Lerdorf
-HTML - Tim Berners-Lee
-CSS - Håkon Wium Lie, Bert Bos
-Objective-C - Steve Jobs
-Swift - Tim Cook
-nodejs - Ryan Dahl. Node.js is an open source, cross-platform runtime environment for server-side and networking applications.
-Linux/git - Linus Torvalds
+C# - Bill Gates-Appeared in	2000
+C - Dennis Ritchie-Appeared in	1972
+C++ - Bjarne_Stroustrup-Appeared in	1983
+JAVA - James_Gosling-Appeared in 1995
+JS - Brendan_Eich-Appeared in	1995
+PHP - Rasmus Lerdorf-Appeared in	1995
+HTML - Tim Berners-Lee-Appeared in 1993
+CSS - Håkon Wium Lie, Bert Bos-Appeared in 1996
+Objective-C - Steve Jobs-Appeared in	1983
+Swift - Tim Cook-Appeared in	2014
+nodejs - Ryan Dahl. Node.js is an open source, cross-platform runtime environment for server-side and networking applications.-Appeared in 2009
+Linux/git - Linus Torvalds-Appeared in 2005;
 
 find sprite for explosion
 
