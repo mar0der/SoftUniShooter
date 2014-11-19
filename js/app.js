@@ -1,4 +1,4 @@
-﻿$(document).ready(function () {
+$(document).ready(function () {
     //Game configuration
     var context;
     var queue;
@@ -17,6 +17,7 @@
     var score = 0;
     var scoreText;
     var gameTimer;
+
     var gameTime = 1960;
     var gameFPS = 60;
     var minGameSpeed;
@@ -25,7 +26,6 @@
     var player;
 
     //initial game setup
-
     window.onload = function () {
         
         //Setup canvas with height and size of the screen
@@ -42,7 +42,7 @@
         queue.installPlugin(createjs.Sound);
         queue.on("complete", queueLoaded, this);
         createjs.Sound.alternateExtensions = ["ogg"];
-
+       
         //Create a load manifest for all assets
 
         queue.loadManifest([
@@ -64,7 +64,7 @@
 
         gameTimer = setInterval(updateTime, 5000);
 
-    }
+    };
 
     //load all resources
 
@@ -116,7 +116,7 @@
             "animations": {"die": [0,12, false,1 ] }
         });
 
-        // Create enemy
+        // Create first enemy
 
         createEnemy();
 
@@ -139,8 +139,7 @@
 
     }
 
-    function createEnemy()
-    {
+    function createEnemy(){
         enemyXPos = getNewX();
         enemyYPos = getNewY();
         enemyXSpeed *= randomSign();
@@ -154,6 +153,7 @@
         stage.addChildAt(animation,1);
     }
 
+    //Random generators
     function getNewX(){
         var newX = Math.abs(Math.floor((Math.random()*((WIDTH-74)-75)+75)));
         return newX;
