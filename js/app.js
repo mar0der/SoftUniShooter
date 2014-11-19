@@ -18,12 +18,24 @@ $(document).ready(function () {
     var scoreText;
     var gameTimer;
 
+    var yearLength = 1000;
     var gameTime = 1960;
+    var winLevel = 1970;
     var gameFPS = 60;
-    var minGameSpeed;
-    var maxGameSpeed;
+    var minGameSpeed = 1;
+    var maxGameSpeed = 10;
     var timerText;
     var player;
+    var hitPoints = 500;
+    // levels 60, 70 , 80 , 90, 2000, 2010, 2020
+    var levelsGoals = {'1960':1000, 
+                       '1970':2000,
+                       '1980':3000,
+                       '1990':4000,
+                       '2000':5000,
+                       '2010':6000 
+     };
+     
 
     //initial game setup
     window.onload = function () {
@@ -46,23 +58,26 @@ $(document).ready(function () {
         //Create a load manifest for all assets
 
         queue.loadManifest([
-            {id: 'backgroundImage', src: 'images/background.jpg'},
+            {id: '1900', src: 'images/background.jpg'},
+            {id: '1960', src: 'images/background/1960.png'},
+            {id: '1975', src: 'images/background/1975.png'},
             {id: 'crossHair', src: 'images/crosshair.png'},
+            {id: 'batSpritesheet', src: 'images/enemy/tCook.png'},
+            {id: 'enemyExplosion', src: 'images/explosion_anim.png'},
+            {id: 'player', src: 'images/players/bChervenkov.png'},
+            //{id: 'tick', src: 'sound/tick.mp3'},
+            {id: 'gameOverSound', src: 'sound/gameOver.mp3'}//,
            // {id: 'shot', src: '../sound/shot.mp3'},
            // {id: 'background', src: '../sound/countryside.mp3'},
-           // {id: 'gameOverSound', src: '../sound/gameOver.mp3'},
-           // id: 'tick', src: '../sound/tick.mp3'},
-           // {id: 'deathSound', src: '../sound/die.mp3'},
-            {id: 'batSpritesheet', src: 'images/enemy/tCook.png'},
-            {id: 'batDeath', src: 'images/explosion_anim.png'},
-            {id: 'player', src: 'images/players/bChervenkov.png'}
+
+           // {id: 'deathSound', src: '../sound/die.mp3'}
         ]);
         queue.load();
        
 
         //Create a timer that updates once every 5 seconds
 
-        gameTimer = setInterval(updateTime, 5000);
+        gameTimer = setInterval(updateTime, yearLength);
 
     };
 
@@ -72,7 +87,7 @@ $(document).ready(function () {
 
         // Add background image
 
-        var backgroundImage = new createjs.Bitmap(queue.getResult("backgroundImage"));
+        var backgroundImage = new createjs.Bitmap(queue.getResult("1900"));
         stage.addChild(backgroundImage);
 
         // Add player to the stage
@@ -95,6 +110,11 @@ $(document).ready(function () {
         timerText.x = WIDTH - 250;
         timerText.y = 10;
         stage.addChild(timerText);
+        
+        //Game Over Label and not added
+        gameOverText = new createjs.Text("GAME OVER", "56px Arial", "#FFF");
+        gameOverText.x = WIDTH/2 - 180;
+        gameOverText.y = HEIGHT/2 - 15;
 
         // Play background sound to the scene
 
@@ -110,8 +130,8 @@ $(document).ready(function () {
 
         // Create enemy explosion spritesheet
 
-        batDeathSpriteSheet = new createjs.SpriteSheet({
-            "images": [queue.getResult('batDeath')],
+        deadEnemySheet = new createjs.SpriteSheet({
+            "images": [queue.getResult('enemyExplosion')],
             "frames": {"width": 201, "height" : 201},
             "animations": {"die": [0,12, false,1 ] }
         });
@@ -173,8 +193,8 @@ $(document).ready(function () {
         }
     }
 
-    function batDeath(){
-        deathAnimation = new createjs.Sprite(batDeathSpriteSheet, "die");
+    function enemyDeath(){
+        deathAnimation = new createjs.Sprite(deadEnemySheet, "die");
         deathAnimation.regX = 100;
         deathAnimation.regY = 100;
         deathAnimation.x = enemyXPos;
@@ -251,10 +271,10 @@ $(document).ready(function () {
             //Hit
             console.log(distX + " " + distY);
             stage.removeChild(animation);
-            batDeath();
+            enemyDeath();
             enemyXPos = -200 ;
             enemyYPos = -200;
-            score += 100;
+            score += hitPoints;
             scoreText.text = "Score: " + score.toString();
             createjs.Sound.play("deathSound");
 
@@ -275,18 +295,49 @@ $(document).ready(function () {
     }
 
     function updateTime() {
+        isGameover()
+        //updateLabels(); todo
+ //update part
         gameTime += 1;
-        if(gameTime > 2020) {
-            //End Game and Clean up
-            timerText.text = "GAME OVER";
+        timerText.text = "Year: " + gameTime;
+        createjs.Sound.play("tick");
+    }
+
+//End Game and Clean up the stage
+
+    function isGameover(){  
+        if(getCurrentLevel() === winLevel){
+            stage.addChild(gameOverText);
+            gameOverText.x -= 350;
+            //gameOverText.
+            gameOverText.text = 'You won! You are programmer now!'
+            clearInterval(gameTimer);
+        } else if(false){
+            stage.addChild(gameOverText);
             stage.removeChild(animation);
             stage.removeChild(crossHair);
-            var si =createjs.Sound.play("gameOverSound");
+            createjs.Sound.play("gameOverSound");
             clearInterval(gameTimer);
-        } else {
-            timerText.text = "Year: " + gameTime;
-            createjs.Sound.play("tick");
         }
+    }
+    function getCurrentLevel(){
+        var gameLevel;
+        if(gameTime >= 1960 && gameTime < 1970){
+            gameLevel=1960;
+        }else if(gameTime >= 1970 && gameTime < 1980){
+            gameLevel=1970;
+        }else if(gameTime >= 1980 && gameTime < 1990){
+            gameLevel=1980;
+        }else if(gameTime >= 1990 && gameTime < 2000){
+            gameLevel=1990;
+        }else if(gameTime >= 2000 && gameTime < 2010){
+            gameLevel=2000;
+        }else if(gameTime >= 2010 && gameTime < 2020){
+            gameLevel=2010;
+        }else if(gameTime >= 2010){
+            gameLevel=2020;
+        }
+        return Number(gameLevel);
     }
 
 });
