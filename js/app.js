@@ -250,7 +250,7 @@ $(document).ready(function () {
     function handleMouseDown(event) {
 
         //Play Gunshot sound
-        createjs.Sound.play("shot");
+        createjs.Sound.play("sound/Gunshot.mp3");
 
         //Increase speed of enemy slightly
         enemyXSpeed *= 1.005;
