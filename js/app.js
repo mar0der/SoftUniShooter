@@ -1,51 +1,50 @@
 ﻿$(document).ready(function () {
+    //Game configuration
     var context;
     var queue;
     var WIDTH = Math.floor(($(window).width())*0.996);
     var HEIGHT = Math.floor(($(window).height())*0.996);
     var mouseXPosition;
     var mouseYPosition;
-    var batImage;
     var stage;
     var animation;
     var deathAnimation;
     var spriteSheet;
     var enemyXPos;
     var enemyYPos;
-    var enemyXSpeed = 3;
-    var enemyYSpeed = 2.25;
+    var enemyXSpeed = 5;
+    var enemyYSpeed = 5;
     var score = 0;
     var scoreText;
     var gameTimer;
     var gameTime = 1960;
+    var gameFPS = 60;
+    var minGameSpeed;
+    var maxGameSpeed;
     var timerText;
     var player;
-    window.onload = function()
-    {
 
-        /*
-         *      Set up the Canvas with Size and height
-         *
-         */
+    //initial game setup
+
+    window.onload = function () {
+        
+        //Setup canvas with height and size of the screen
+
         var canvas = document.getElementById('stage');
         context = canvas.getContext('2d');
         context.canvas.width = WIDTH;
         context.canvas.height = HEIGHT;
         stage = new createjs.Stage("stage");
-
-        /*
-         *      Set up the Asset Queue and load sounds
-         *
-         */
+                
+        //Setup the Asset Queue and load sounds
+        
         queue = new createjs.LoadQueue(false);
         queue.installPlugin(createjs.Sound);
         queue.on("complete", queueLoaded, this);
         createjs.Sound.alternateExtensions = ["ogg"];
 
-        /*
-         *      Create a load manifest for all assets
-         *
-         */
+        //Create a load manifest for all assets
+
         queue.loadManifest([
             {id: 'backgroundImage', src: 'images/background.jpg'},
             {id: 'crossHair', src: 'images/crosshair.png'},
@@ -59,72 +58,85 @@
             {id: 'player', src: 'images/players/bChervenkov.png'}
         ]);
         queue.load();
+       
 
+        //Create a timer that updates once every 5 seconds
 
-        /*
-         *      Create a timer that updates once per second
-         *
-         */
         gameTimer = setInterval(updateTime, 5000);
 
     }
 
-    function queueLoaded(event)
-    {
+    //load all resources
+
+    function queueLoaded(event){
+
         // Add background image
+
         var backgroundImage = new createjs.Bitmap(queue.getResult("backgroundImage"));
         stage.addChild(backgroundImage);
 
-        // Add hero
+        // Add player to the stage
+
         var hero = new createjs.Bitmap(queue.getResult("player"));
         hero.x = WIDTH / 2 - 75;
         hero.y = HEIGHT - 150;
         stage.addChild(hero);
 
-        //Add Score
+        //Add Score Label to the stage
+
         scoreText = new createjs.Text("Score: " + score.toString(), "36px Arial", "#FFF");
         scoreText.x = 10;
         scoreText.y = 10;
         stage.addChild(scoreText);
 
-        //Ad Timer
+        //Ad Timer to the scene
+
         timerText = new createjs.Text("Year: " + gameTime.toString(), "36px Arial", "#FFF");
         timerText.x = WIDTH - 250;
         timerText.y = 10;
         stage.addChild(timerText);
 
-        // Play background sound
+        // Play background sound to the scene
+
         createjs.Sound.play("background", {loop: -1});
 
-        // Create bat spritesheet
+        // Create enemy spritesheet
+
         spriteSheet = new createjs.SpriteSheet({
             "images": [queue.getResult('batSpritesheet')],
             "frames": {"width": 150, "height": 150},
             "animations": { "flap": [0,0] }
         });
 
-        // Create bat death spritesheet
+        // Create enemy explosion spritesheet
+
         batDeathSpriteSheet = new createjs.SpriteSheet({
             "images": [queue.getResult('batDeath')],
             "frames": {"width": 201, "height" : 201},
             "animations": {"die": [0,12, false,1 ] }
         });
 
-        // Create bat sprite
+        // Create enemy
+
         createEnemy();
 
-        // Create crosshair
+        // Hide mouse pointer and add custom crosshair
+
+        $('#stage').css('cursor', 'none');
         crossHair = new createjs.Bitmap(queue.getResult("crossHair"));
         stage.addChild(crossHair);
 
         // Add ticker
-        createjs.Ticker.setFPS(15);
+
+        createjs.Ticker.setFPS(gameFPS);
         createjs.Ticker.addEventListener('tick', stage);
         createjs.Ticker.addEventListener('tick', tickEvent);
 
         // Set up events AFTER the game is loaded
+
         window.onmousemove = handleMouseMove;
         window.onmousedown = handleMouseDown;
+
     }
 
     function createEnemy()
@@ -141,14 +153,17 @@
         animation.gotoAndPlay("flap");
         stage.addChildAt(animation,1);
     }
+
     function getNewX(){
         var newX = Math.abs(Math.floor((Math.random()*((WIDTH-74)-75)+75)));
         return newX;
     }
+
     function getNewY(){
         var newY = Math.abs(Math.floor((Math.random()*((HEIGHT-74)-75)+75)));
         return newY;
     }
+
     function randomSign(){
         var num = Math.floor(Math.random()*2);
         if (num == 0) {
@@ -157,8 +172,8 @@
             return 1;
         }
     }
-    function batDeath()
-    {
+
+    function batDeath(){
         deathAnimation = new createjs.Sprite(batDeathSpriteSheet, "die");
         deathAnimation.regX = 100;
         deathAnimation.regY = 100;
@@ -171,22 +186,19 @@
     function tickEvent()
     {
         //Make sure enemy bat is within game boundaries and move enemy Bat
-        if(enemyXPos <= WIDTH - 75 && enemyXPos >= 74)
-        {
+        if(enemyXPos <= WIDTH - 75 && enemyXPos >= 74){
             enemyXPos += enemyXSpeed;
-        } else
-        {
+        } else {
             enemyXSpeed = enemyXSpeed * (-1);
             enemyXPos += enemyXSpeed;
         }
-        if(enemyYPos <= HEIGHT - 75 && enemyYPos >= 74)
-        {
+        if(enemyYPos <= HEIGHT - 75 && enemyYPos >= 74) {
             enemyYPos += enemyYSpeed;
-        } else
-        {
+        } else {
             enemyYSpeed = enemyYSpeed * (-1);
             enemyYPos += enemyYSpeed;
         }
+
         //if (enemyYPos > HEIGHT - 210 && enemyXPos > WIDTH / 2 - 75 && enemyXPos < WIDTH / 2 + 75) {
         //
         //        enemyYSpeed = enemyYSpeed * (-1);
@@ -206,27 +218,23 @@
 
         animation.x = enemyXPos;
         animation.y = enemyYPos;
-
-
     }
 
 
-    function handleMouseMove(event)
-    {
+    function handleMouseMove(event){
         //Offset the position by 45 pixels so mouse is in center of crosshair
         crossHair.x = event.clientX-45;
         crossHair.y = event.clientY-45;
     }
 
-    function handleMouseDown(event)
-    {
+    function handleMouseDown(event) {
 
         //Play Gunshot sound
         createjs.Sound.play("shot");
 
         //Increase speed of enemy slightly
-        enemyXSpeed *= 1.05;
-        enemyYSpeed *= 1.06;
+        enemyXSpeed *= 1.005;
+        enemyYSpeed *= 1.006;
 
         //Obtain Shot position
         var shotX = Math.round(event.clientX);
@@ -239,8 +247,7 @@
         var distY = Math.abs(shotY - spriteY);
 
         // Anywhere in the body or head is a hit - but not the wings
-        if(distX < 60 && distY < 75 )
-        {
+        if(distX < 60 && distY < 75 ) {
             //Hit
             console.log(distX + " " + distY);
             stage.removeChild(animation);
@@ -259,31 +266,27 @@
             var timeToCreate = Math.floor((Math.random()*3500)+1);
             setTimeout(createEnemy,timeToCreate);
 
-        } else
-        {
+        } else {
+
             //Miss
             score -= 10;
             scoreText.text = "Score: " + score.toString();
-
         }
     }
 
-    function updateTime()
-    {
+    function updateTime() {
         gameTime += 1;
-        if(gameTime > 2020)
-        {
+        if(gameTime > 2020) {
             //End Game and Clean up
             timerText.text = "GAME OVER";
             stage.removeChild(animation);
             stage.removeChild(crossHair);
             var si =createjs.Sound.play("gameOverSound");
             clearInterval(gameTimer);
-        }
-        else
-        {
+        } else {
             timerText.text = "Year: " + gameTime;
             createjs.Sound.play("tick");
         }
     }
+
 });
