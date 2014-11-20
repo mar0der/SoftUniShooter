@@ -28,11 +28,11 @@ $(document).ready(function() {
     var player;
     var levelGoal;
     var hitPoints = 500;
-
+    var backgoundImage = 1960;
+    var backgroundImages = [1960,1972,1976,1983,1984,1985,1993,1994,1995,1996,1997,2000,2005,2009,2014]
     var levelsGoals = [0, 1000, 2000, 3000, 4000, 5000, 6000];
-    var levels = [1960, 1970, 1980, 1990, 2000, 2010, 2020]
-
-
+    var levels = [1960, 1970, 1980, 1990, 2000, 2010, 2020];
+ 
     //initial game setup
     window.onload = function() {
 
@@ -42,13 +42,7 @@ $(document).ready(function() {
         context = canvas.getContext('2d');
         context.canvas.width = WIDTH;
         context.canvas.height = HEIGHT;
-//        $('#playground').css('height', HEIGHT + 100);
-//        //$('#playground').css('background-image', 'images/background/1975.png');
-//        $('#avatar').css({
-//            'top': (HEIGHT-50)+'px',
-//            'left': (WIDTH /2-75) + 'px',
-//            'src': 
-//        });
+        $('#playground').css('background-image', 'url(\'images/background/'+backgoundImage+'.png\')');
         stage = new createjs.Stage("stage");
 
         //Setup the Asset Queue and load sounds
@@ -77,7 +71,6 @@ $(document).ready(function() {
         ]);
         queue.load();
 
-
         //Create a timer that updates once every 5 seconds
 
         gameTimer = setInterval(updateTime, yearLength);
@@ -87,11 +80,6 @@ $(document).ready(function() {
     //load all resources
 
     function queueLoaded(event) {
-
-        // Add background image
-
-        var backgroundImage = new createjs.Bitmap(queue.getResult("1900"));
-        stage.addChild(backgroundImage);
 
         // Add player to the stage
 
@@ -223,24 +211,6 @@ $(document).ready(function() {
             enemyYSpeed = enemyYSpeed * (-1);
             enemyYPos += enemyYSpeed;
         }
-
-        //if (enemyYPos > HEIGHT - 210 && enemyXPos > WIDTH / 2 - 75 && enemyXPos < WIDTH / 2 + 75) {
-        //
-        //        enemyYSpeed = enemyYSpeed * (-1);
-        //        enemyYPos += enemyYSpeed;
-        //    if (enemyYSpeed > 0 && enemyYPos < HEIGHT - 150) {
-        //        console.log("inside");
-        //        enemyXSpeed = enemyXSpeed * (-1);
-        //        enemyXPos += enemyXSpeed;
-        //
-        //    }else if(enemyYSpeed < 0 && enemyYPos > HEIGHT - 150){
-        //        console.log('inside2')
-        //        enemyXSpeed = enemyXSpeed * (-1);
-        //        enemyYPos += enemyYSpeed;
-        //    }
-        //
-        //}
-
         animation.x = enemyXPos;
         animation.y = enemyYPos;
     }
@@ -317,7 +287,6 @@ $(document).ready(function() {
 //End Game and Clean up the stage 
 
     function isGameover() {
-        console.log(score + ' ' + levelGoal)
         if (getCurrentLevel() === winLevel && score >= levelGoal) {
             gameOverText = new createjs.Text("You won! You are programmer now!", "56px Arial", "#FFF");
             gameOverText.x = WIDTH / 2 - 450;
