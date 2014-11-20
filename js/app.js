@@ -18,21 +18,23 @@ $(document).ready(function() {
     var scoreText;
     var gameTimer;
 
-    var yearLength = 1000;
+    var yearLength = 500;
     var gameTime = 1960;
-    var winLevel = 1980;
+    var winLevel = 2020;
     var gameFPS = 60;
     var minGameSpeed = 1;
     var maxGameSpeed = 10;
     var timerText;
+    var levelGoalText;
     var player;
     var levelGoal;
     var hitPoints = 500;
-    var backgoundImage = 1960;
-    var backgroundImages = [1960,1972,1976,1983,1984,1985,1993,1994,1995,1996,1997,2000,2005,2009,2014]
+    var backgroundImageNumber = 1960;
+    var backgroundImage;
+    var backgroundImages = [1960, 1972, 1976, 1983, 1984, 1985, 1993, 1994, 1995, 1996, 1997, 2000, 2005, 2009, 2014]
     var levelsGoals = [0, 1000, 2000, 3000, 4000, 5000, 6000];
     var levels = [1960, 1970, 1980, 1990, 2000, 2010, 2020];
- 
+
     //initial game setup
     window.onload = function() {
 
@@ -42,8 +44,9 @@ $(document).ready(function() {
         context = canvas.getContext('2d');
         context.canvas.width = WIDTH;
         context.canvas.height = HEIGHT;
-        $('#playground').css('background-image', 'url(\'images/background/'+backgoundImage+'.png\')');
+        //$('#playground').css('background-image', 'url(\'images/background/'+backgoundImage+'.png\')');
         stage = new createjs.Stage("stage");
+
 
         //Setup the Asset Queue and load sounds
 
@@ -55,9 +58,23 @@ $(document).ready(function() {
         //Create a load manifest for all assets
 
         queue.loadManifest([
-            {id: '1900', src: 'images/background.jpg'},
             {id: '1960', src: 'images/background/1960.png'},
-            {id: '1975', src: 'images/background/1975.png'},
+            {id: '1972', src: 'images/background/1972.png'},
+            {id: '1976', src: 'images/background/1972.png'},
+            {id: '1983', src: 'images/background/1972.png'},
+            {id: '1984', src: 'images/background/1972.png'},
+            {id: '1985', src: 'images/background/1972.png'},
+            {id: '1993', src: 'images/background/1972.png'},
+            {id: '1994', src: 'images/background/1972.png'},
+            {id: '1995', src: 'images/background/1972.png'},
+            {id: '1996', src: 'images/background/1972.png'},
+            {id: '1997', src: 'images/background/1972.png'},
+            {id: '2000', src: 'images/background/1972.png'},
+            {id: '2005', src: 'images/background/1972.png'},
+            {id: '2009', src: 'images/background/1972.png'},
+            {id: '2013', src: 'images/background/1972.png'},
+            {id: '2014', src: 'images/background/1972.png'},
+            
             {id: 'crossHair', src: 'images/crosshair.png'},
             {id: 'batSpritesheet', src: 'images/enemy/tCook.png'},
             {id: 'enemyExplosion', src: 'images/explosion_anim.png'},
@@ -81,6 +98,12 @@ $(document).ready(function() {
 
     function queueLoaded(event) {
 
+        backgroundImage = new createjs.Bitmap(queue.getResult("1960"));
+        backgroundImage.snapToPixel = false;
+        $('#bgc').attr('width', WIDTH+'px');
+        $('#bgc').attr('height', HEIGHT+'px');
+        $('#bgc').css('display', 'block');
+        
         // Add player to the stage
 
         var hero = new createjs.Bitmap(queue.getResult("player"));
@@ -228,8 +251,9 @@ $(document).ready(function() {
         createjs.Sound.play("sound/Gunshot.mp3");
 
         //Increase speed of enemy slightly
-        enemyXSpeed *= 1.005;
-        enemyYSpeed *= 1.006;
+        enemyXSpeed *= 1.0009;
+        enemyYSpeed *= 1.0009;
+        updateLabels();
 
         //Obtain Shot position
         var shotX = Math.round(event.clientX);
@@ -254,9 +278,9 @@ $(document).ready(function() {
             createjs.Sound.play("deathSound");
 
             //Make it harder next time
-            enemyYSpeed *= 1.25;
-            enemyXSpeed *= 1.3;
-
+            enemyYSpeed *= 1.05;
+            enemyXSpeed *= 1.03;
+            updateLabels();
             //Create new enemy
             var timeToCreate = Math.floor((Math.random() * 3500) + 1);
             setTimeout(createEnemy, timeToCreate);
@@ -268,13 +292,22 @@ $(document).ready(function() {
 
 //the Tick function
     function updateTime() {
-        isGameover()
+        isGameover();
         updateLabels();
+        updateBackgroundImage();
         gameTime += 1;
+        levelGoal = levelsGoals[levels.indexOf(Number(getCurrentLevel()))];
         createjs.Sound.play("tick");
         timerText.text = "Year: " + gameTime;
         createjs.Sound.play("sound/tick.mp3");
-        levelGoal = levelsGoals[levels.indexOf(Number(getCurrentLevel()))]
+    }
+
+//background image change
+    function updateBackgroundImage() {
+        if (backgroundImages.indexOf(gameTime) > 0) {
+            backgroundImageNumber = gameTime;
+            $('#bgc').attr('src', 'images/background/'+backgroundImageNumber+'.png');
+        }
     }
 
 //update all labels on screen
