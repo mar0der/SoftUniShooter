@@ -1,2 +1,6 @@
-﻿body {
+#playground{
+    position: absolute;
+}
+#avatar{
+    position:absolute;
 }
