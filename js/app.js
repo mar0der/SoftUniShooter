@@ -316,7 +316,7 @@ $(document).ready(function () {
             stage.addChild(gameOverText);
             stage.removeChild(animation);
             stage.removeChild(crossHair);
-            createjs.Sound.play("sound/gameOverSound.mp3");
+            createjs.Sound.play("sound/gameOver.mp3");
             clearInterval(gameTimer);
         }
     }
