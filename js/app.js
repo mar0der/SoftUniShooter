@@ -18,7 +18,7 @@ $(document).ready(function() {
     var scoreText;
     var gameTimer;
 
-    var yearLength = 500;
+    var yearLength = 2000;
     var gameTime = 1960;
     var winLevel = 2020;
     var gameFPS = 60;
@@ -221,14 +221,15 @@ $(document).ready(function() {
         enemyYPos = getNewY();
         enemyXSpeed *= randomSign();
         enemyYSpeed *= randomSign();
-        
-        animation = new createjs.Sprite(spriteSheet, "flap");
+        var randomEnemy = enemyList[ (Math.floor(Math.random() * enemyList.length))];
+        animation = new createjs.Bitmap(queue.getResult(randomEnemy));
         animation.regX = 75;
         animation.regY = 75;
         animation.x = enemyXPos;
         animation.y = enemyYPos;
-        animation.gotoAndPlay("flap");
         stage.addChildAt(animation, 1);
+        
+
     }
 
     //Random generators
