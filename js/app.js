@@ -34,6 +34,17 @@ $(document).ready(function() {
     var backgroundImages = [1960, 1972, 1976, 1983, 1984, 1985, 1993, 1994, 1995, 1996, 1997, 2000, 2005, 2009, 2014]
     var levelsGoals = [0, 1000, 2000, 3000, 4000, 5000, 6000];
     var levels = [1960, 1970, 1980, 1990, 2000, 2010, 2020];
+    var availableAvatars = ['bChervenkov','mStoyanov', 'sNakov', 'sVelkov' ,'pBorukova'];
+    var enemyListObject = {
+        '1970' : ['dRitchie', 'sJobsA', 'bGatesM'],
+        '1980' : ['bStroustrup', 'sJobsO', 'bGatesW' ],
+        '1990' : ['lTorvaldsL', 'tBernersLeepng', 'jGosling','bEich','rLerdorf', 'hLie' ],
+        '2000' : ['bGatesC', 'rDahl', 'lTorvaldsG'],
+        '2010' : ['tCook', 'sNakov']        
+    }
+    //$.each(source, function() {dest.push(this)})   
+    var enemyList = ['bGatesM'];
+    
 
     //initial game setup
     window.onload = function() {
@@ -74,11 +85,14 @@ $(document).ready(function() {
             {id: '2009', src: 'images/background/1972.png'},
             {id: '2013', src: 'images/background/1972.png'},
             {id: '2014', src: 'images/background/1972.png'},
-            
             {id: 'crossHair', src: 'images/crosshair.png'},
             {id: 'batSpritesheet', src: 'images/enemy/tCook.png'},
             {id: 'enemyExplosion', src: 'images/explosion_anim.png'},
-            {id: 'player', src: 'images/players/bChervenkov.png'},
+            {id: 'bChervenkov', src: 'images/players/bChervenkov.png'},
+            {id: 'mStoyanov', src: 'images/players/mStoyanov.png'},
+            {id: 'pBorukova', src: 'images/players/pBorukova.png'},
+            {id: 'sNakov', src: 'images/players/sNakov.png'},
+            {id: 'sVelkov', src: 'images/players/sVelkov.png'},
             //{id: 'tick', src: 'sound/tick.mp3'},
             {id: 'gameOverSound', src: 'sound/gameOver.mp3'}//,
             // {id: 'shot', src: '../sound/shot.mp3'},
@@ -100,13 +114,19 @@ $(document).ready(function() {
 
         backgroundImage = new createjs.Bitmap(queue.getResult("1960"));
         backgroundImage.snapToPixel = false;
-        $('#bgc').attr('width', WIDTH+'px');
-        $('#bgc').attr('height', HEIGHT+'px');
+        $('#bgc').attr('width', WIDTH + 'px');
+        $('#bgc').attr('height', HEIGHT + 'px');
         $('#bgc').css('display', 'block');
-        
-        // Add player to the stage
 
-        var hero = new createjs.Bitmap(queue.getResult("player"));
+        // Add player to the stage
+        var avatarObject = parseURLParams(document.URL);
+        if(avatarObject && avatarObject.avatar &&  avatarObject.avatar.length > 0 ){
+            avatar = avatarObject.avatar[0];
+        }else{
+            avatar = 'sNakov';
+        }
+
+        var hero = new createjs.Bitmap(queue.getResult(avatar));
         hero.x = WIDTH / 2 - 75;
         hero.y = HEIGHT - 150;
         stage.addChild(hero);
@@ -268,7 +288,6 @@ $(document).ready(function() {
         // Anywhere in the body or head is a hit - but not the wings
         if (distX < 60 && distY < 75) {
             //Hit
-            console.log(distX + " " + distY);
             stage.removeChild(animation);
             enemyDeath();
             enemyXPos = -200;
@@ -295,6 +314,7 @@ $(document).ready(function() {
         isGameover();
         updateLabels();
         updateBackgroundImage();
+        addEnemies();
         gameTime += 1;
         levelGoal = levelsGoals[levels.indexOf(Number(getCurrentLevel()))];
         createjs.Sound.play("tick");
@@ -306,7 +326,7 @@ $(document).ready(function() {
     function updateBackgroundImage() {
         if (backgroundImages.indexOf(gameTime) > 0) {
             backgroundImageNumber = gameTime;
-            $('#bgc').attr('src', 'images/background/'+backgroundImageNumber+'.png');
+            $('#bgc').attr('src', 'images/background/' + backgroundImageNumber + '.png');
         }
     }
 
@@ -349,6 +369,12 @@ $(document).ready(function() {
         }
         return false;
     }
+    function addEnemies(){
+        if(gameTime == getCurrentLevel() && gameTime > 1960){
+            $.each(enemyListObject[gameTime], function() {enemyList.push(this)});
+            console.log(enemyList.length);
+        }
+    }
     function getCurrentLevel() {
         var gameLevel;
         if (gameTime >= 1960 && gameTime < 1970) {
@@ -369,4 +395,28 @@ $(document).ready(function() {
         return Number(gameLevel);
     }
 
+    function parseURLParams(url) {
+        var queryStart = url.indexOf("?") + 1,
+                queryEnd = url.indexOf("#") + 1 || url.length + 1,
+                query = url.slice(queryStart, queryEnd - 1),
+                pairs = query.replace(/\+/g, " ").split("&"),
+                parms = {}, i, n, v, nv;
+
+        if (query === url || query === "") {
+            return;
+        }
+
+        for (i = 0; i < pairs.length; i++) {
+            nv = pairs[i].split("=");
+            n = decodeURIComponent(nv[0]);
+            v = decodeURIComponent(nv[1]);
+
+            if (!parms.hasOwnProperty(n)) {
+                parms[n] = [];
+            }
+
+            parms[n].push(nv.length === 2 ? v : null);
+        }
+        return parms;
+    }
 });
