@@ -86,7 +86,26 @@ $(document).ready(function() {
             {id: '2013', src: 'images/background/1972.png'},
             {id: '2014', src: 'images/background/1972.png'},
             {id: 'crossHair', src: 'images/crosshair.png'},
-            {id: 'batSpritesheet', src: 'images/enemy/tCook.png'},
+            {id: 'bCox', src: 'images/enemy/bCox.png'},
+            {id: 'bEich', src: 'images/enemy/tCook.png'},
+            {id: 'bGates', src: 'images/enemy/bGates.png'},
+            {id: 'bGatesC', src: 'images/enemy/bGatesC.png'},
+            {id: 'bGatesM', src: 'images/enemy/bGatesM.png'},
+            {id: 'bGatesW', src: 'images/enemy/bGatesW.png'},
+            {id: 'bStroustrup', src: 'images/enemy/bStroustrup.png'},
+            {id: 'dRitchie', src: 'images/enemy/dRitchie.png'},
+            {id: 'hLie', src: 'images/enemy/hLie.png'},
+            {id: 'jGosling', src: 'images/enemy/jGosling.png'},
+            {id: 'lTorvaldsG', src: 'images/enemy/lTorvaldsG.png'},
+            {id: 'lTorvaldsL', src: 'images/enemy/lTorvaldsL.png'},
+            {id: 'rDahl', src: 'images/enemy/rDahl.png'},
+            {id: 'rLerdorf', src: 'images/enemy/rLerdorf.png'},
+            {id: 'sJobsA', src: 'images/enemy/sJobsA.png'},
+            {id: 'sJobsO', src: 'images/enemy/sJobsO.png'},
+            {id: 'sNakov', src: 'images/enemy/sNakov.png'},
+            {id: 'tBernersLeepng', src: 'images/enemy/tBernersLeepng.png'},
+            {id: 'tCook', src: 'images/enemy/tCook.png'},
+            
             {id: 'enemyExplosion', src: 'images/explosion_anim.png'},
             {id: 'bChervenkov', src: 'images/players/bChervenkov.png'},
             {id: 'mStoyanov', src: 'images/players/mStoyanov.png'},
@@ -159,10 +178,12 @@ $(document).ready(function() {
         // Create enemy spritesheet
 
         spriteSheet = new createjs.SpriteSheet({
-            "images": [queue.getResult('batSpritesheet')],
+            "images": [queue.getResult('dRitchie')],
             "frames": {"width": 150, "height": 150},
             "animations": {"flap": [0, 0]}
         });
+        
+        
 
         // Create enemy explosion spritesheet
 
@@ -200,6 +221,7 @@ $(document).ready(function() {
         enemyYPos = getNewY();
         enemyXSpeed *= randomSign();
         enemyYSpeed *= randomSign();
+        
         animation = new createjs.Sprite(spriteSheet, "flap");
         animation.regX = 75;
         animation.regY = 75;
@@ -372,7 +394,6 @@ $(document).ready(function() {
     function addEnemies(){
         if(gameTime == getCurrentLevel() && gameTime > 1960){
             $.each(enemyListObject[gameTime], function() {enemyList.push(this)});
-            console.log(enemyList.length);
         }
     }
     function getCurrentLevel() {
