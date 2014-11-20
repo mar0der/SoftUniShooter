@@ -5,7 +5,7 @@ body{
     margin-top:100px;
 }
 #wrapper{
-    width:550px;
+    width:730px;
     margin:0 auto;
 }
 img{
@@ -25,10 +25,11 @@ article{
     margin-right: 15px;
     border-color:lightgreen;
 }
-#fourArticle,#sixArticle,#eightArticle {
+
+#twoArticle,#fourArticle,#sixArticle, #eightArticle {
     float:right;
 }
-#twoArticle,#threeArticle,#fiveArticle, #nineArticle{
+#oneArticle,#threeArticle,#fiveArticle,#sevenArticle{
     float:left;
     
 }
@@ -37,12 +38,13 @@ article{
 }
 
 button{
-    margin:15px;
+    margin: 0 auto;
     margin-right: 20px;
     width:167px;
     height:35px;
     font-size:25px;
     border-radius: 15px;
+    margin: 0 auto;
     background: linear-gradient(45deg, red, orange, yellow, green, blue);
 }
 a{
@@ -52,7 +54,7 @@ a{
 #buttons{
     float:left;
     width:100%;
-    margin-left: 31%;
+    margin-left: 40%;
 
 }
 

@@ -33,7 +33,7 @@ $(document).ready(function() {
     var backgroundImages = [1960, 1972, 1976, 1983, 1984, 1985, 1993, 1994, 1995, 1996, 1997, 2000, 2005, 2009, 2014]
     var levelsGoals = [0, 3000, 6000, 9000, 12000, 15000, 18000];
     var levels = [1960, 1970, 1980, 1990, 2000, 2010, 2020];
-    var availableAvatars = ['bChervenkov', 'mStoyanov', 'sNakov', 'sVelkov', 'pBorukova', 'pPetkov', 'iHristov', 'gTodorov', 'aVekua'];
+    var availableAvatars = ['bChervenkov', 'mStoyanov', 'sNakov', 'sVelkov', 'pBorukova', 'pPetkov', 'iHristov', 'gTodorov'];
     var enemyListObject = {
         '1970': ['dRitchie', 'sJobsA', 'bGatesM'],
         '1980': ['bStroustrup', 'sJobsO', 'bGatesW'],
@@ -113,7 +113,6 @@ $(document).ready(function() {
             {id: 'pPetkov', src: 'images/players/pPetkov.png'},
             {id: 'iHristov', src: 'images/players/iHristov.png'},
             {id: 'gTodorov', src: 'images/players/gTodorov.png'},
-            {id: 'aVekua', src: 'images/players/aVekua.png'},
             //{id: 'tick', src: 'sound/tick.mp3'},
             {id: 'gameOverSound', src: 'sound/gameOver.mp3'}//,
             // {id: 'shot', src: '../sound/shot.mp3'},
@@ -325,7 +324,7 @@ $(document).ready(function() {
             enemyXSpeed *= 1.03;
             updateLabels();
             //Create new enemy
-            var timeToCreate = Math.floor((Math.random() * 3500) + 1);
+            var timeToCreate = Math.floor((Math.random() * 2000) + 1);
             setTimeout(createEnemy, timeToCreate);
 
         } else {
