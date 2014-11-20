@@ -1,13 +1,50 @@
 #wrapper{
-    width:290px;
-    margin:0 auto;
+     width:400px;
+     margin:0 auto;
+ }
+img{
+    height:165px;
+    width:165px;
+    vertical-align: middle;
+    border-radius: 10px;
 
 }
-td{
-    height:150px;
-    width:150px;
+article{
+    display:inline-block;
+    width:165px;
+    height:165px;
+    border:1px solid ;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border-color:lightgreen;
 }
-img{
-    height:150px;
-    width:150px;
+#twoArticle,#threeArticle,#sixArticle{
+    float:right;
 }
+#fourArticle,#fiveArticle{
+    float:left;
+}
+#oneArticle{
+    display:inline-block;
+}
+body{
+    background-color: black;
+    margin-top:100px;
+}
+button{
+    margin:15px;
+    width:167px;
+    height:35px;
+    font-size:25px;
+    border-radius: 15px;
+}
+a{
+    text-decoration: none;
+    color:darkblue;
+}
+#buttons{
+    float:left;
+    width:100%;
+
+}
+
