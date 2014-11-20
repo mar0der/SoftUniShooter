@@ -1,0 +1,36 @@
+body{
+    font-size:20px;
+    background-image: url('../images/1960.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+#wrapper{
+    width:50%;
+    margin:0 auto;
+    
+}
+li{
+    list-style-type: none;
+    border:1px solid black;
+    border-radius: 25px;
+    text-decoration: none;
+    width:200px;
+    height: 30px;
+    padding-top: 10px;
+    text-align:center;
+    vertical-align: middle;
+    margin-top:10px;
+}
+ul li {
+    color: white;
+    background: linear-gradient(45deg, red, orange, yellow, green, blue);
+    margin-left: 30%;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+ul{
+    margin-top:350px;
+}

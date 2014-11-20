@@ -1,0 +1,58 @@
+body{
+    background-image: url('../images/1960.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    margin-top:100px;
+}
+#wrapper{
+    width:550px;
+    margin:0 auto;
+}
+img{
+    height:165px;
+    width:165px;
+    vertical-align: middle;
+    border-radius: 10px;
+
+}
+article{
+    display:inline-block;
+    width:165px;
+    height:165px;
+    border:1px solid ;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    margin-right: 15px;
+    border-color:lightgreen;
+}
+#fourArticle,#sixArticle,#eightArticle {
+    float:right;
+}
+#twoArticle,#threeArticle,#fiveArticle, #nineArticle{
+    float:left;
+    
+}
+#oneArticle{
+    display:inline-block;
+}
+
+button{
+    margin:15px;
+    margin-right: 20px;
+    width:167px;
+    height:35px;
+    font-size:25px;
+    border-radius: 15px;
+    background: linear-gradient(45deg, red, orange, yellow, green, blue);
+}
+a{
+    text-decoration: none;
+    color:darkblue;
+}
+#buttons{
+    float:left;
+    width:100%;
+    margin-left: 31%;
+
+}
+

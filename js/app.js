@@ -17,8 +17,7 @@ $(document).ready(function() {
     var score = 0;
     var scoreText;
     var gameTimer;
-
-    var yearLength = 2000;
+    var yearLength = 1500;
     var gameTime = 1960;
     var winLevel = 2020;
     var gameFPS = 60;
@@ -32,19 +31,19 @@ $(document).ready(function() {
     var backgroundImageNumber = 1960;
     var backgroundImage;
     var backgroundImages = [1960, 1972, 1976, 1983, 1984, 1985, 1993, 1994, 1995, 1996, 1997, 2000, 2005, 2009, 2014]
-    var levelsGoals = [0, 1000, 2000, 3000, 4000, 5000, 6000];
+    var levelsGoals = [0, 3000, 6000, 9000, 12000, 15000, 18000];
     var levels = [1960, 1970, 1980, 1990, 2000, 2010, 2020];
-    var availableAvatars = ['bChervenkov','mStoyanov', 'sNakov', 'sVelkov' ,'pBorukova'];
+    var availableAvatars = ['bChervenkov', 'mStoyanov', 'sNakov', 'sVelkov', 'pBorukova', 'pPetkov', 'iHristov', 'gTodorov', 'aVekua'];
     var enemyListObject = {
-        '1970' : ['dRitchie', 'sJobsA', 'bGatesM'],
-        '1980' : ['bStroustrup', 'sJobsO', 'bGatesW' ],
-        '1990' : ['lTorvaldsL', 'tBernersLeepng', 'jGosling','bEich','rLerdorf', 'hLie' ],
-        '2000' : ['bGatesC', 'rDahl', 'lTorvaldsG'],
-        '2010' : ['tCook', 'sNakov']        
+        '1970': ['dRitchie', 'sJobsA', 'bGatesM'],
+        '1980': ['bStroustrup', 'sJobsO', 'bGatesW'],
+        '1990': ['lTorvaldsL', 'tBernersLeepng', 'jGosling', 'bEich', 'rLerdorf', 'hLie'],
+        '2000': ['bGatesC', 'rDahl', 'lTorvaldsG'],
+        '2010': ['tCook', 'sNakov']
     }
     //$.each(source, function() {dest.push(this)})   
     var enemyList = ['bGatesM'];
-    
+
 
     //initial game setup
     window.onload = function() {
@@ -105,18 +104,20 @@ $(document).ready(function() {
             {id: 'sNakov', src: 'images/enemy/sNakov.png'},
             {id: 'tBernersLeepng', src: 'images/enemy/tBernersLeepng.png'},
             {id: 'tCook', src: 'images/enemy/tCook.png'},
-            
             {id: 'enemyExplosion', src: 'images/explosion_anim.png'},
             {id: 'bChervenkov', src: 'images/players/bChervenkov.png'},
             {id: 'mStoyanov', src: 'images/players/mStoyanov.png'},
             {id: 'pBorukova', src: 'images/players/pBorukova.png'},
             {id: 'sNakov', src: 'images/players/sNakov.png'},
             {id: 'sVelkov', src: 'images/players/sVelkov.png'},
+            {id: 'pPetkov', src: 'images/players/pPetkov.png'},
+            {id: 'iHristov', src: 'images/players/iHristov.png'},
+            {id: 'gTodorov', src: 'images/players/gTodorov.png'},
+            {id: 'aVekua', src: 'images/players/aVekua.png'},
             //{id: 'tick', src: 'sound/tick.mp3'},
             {id: 'gameOverSound', src: 'sound/gameOver.mp3'}//,
             // {id: 'shot', src: '../sound/shot.mp3'},
             // {id: 'background', src: '../sound/countryside.mp3'},
-
             // {id: 'deathSound', src: '../sound/die.mp3'}
         ]);
         queue.load();
@@ -139,9 +140,9 @@ $(document).ready(function() {
 
         // Add player to the stage
         var avatarObject = parseURLParams(document.URL);
-        if(avatarObject && avatarObject.avatar &&  avatarObject.avatar.length > 0 ){
+        if (avatarObject && avatarObject.avatar && avatarObject.avatar.length > 0) {
             avatar = avatarObject.avatar[0];
-        }else{
+        } else {
             avatar = 'sNakov';
         }
 
@@ -159,7 +160,7 @@ $(document).ready(function() {
 
         //Add Score Label to the stage
 
-        levelGoalText = new createjs.Text("Level goal: " + 1000, "36px Arial", "#FFF");
+        levelGoalText = new createjs.Text("Level goal: " + 3000, "36px Arial", "#FFF");
         levelGoalText.x = 10;
         levelGoalText.y = 50;
         stage.addChild(levelGoalText);
@@ -182,8 +183,8 @@ $(document).ready(function() {
             "frames": {"width": 150, "height": 150},
             "animations": {"flap": [0, 0]}
         });
-        
-        
+
+
 
         // Create enemy explosion spritesheet
 
@@ -228,7 +229,7 @@ $(document).ready(function() {
         animation.x = enemyXPos;
         animation.y = enemyYPos;
         stage.addChildAt(animation, 1);
-        
+
 
     }
 
@@ -328,7 +329,7 @@ $(document).ready(function() {
             setTimeout(createEnemy, timeToCreate);
 
         } else {
-            score -= 10;
+            score -= 250;
         }
     }
 
@@ -364,16 +365,20 @@ $(document).ready(function() {
 
     function isGameover() {
         if (getCurrentLevel() === winLevel && score >= levelGoal) {
-            gameOverText = new createjs.Text("You won! You are programmer now!", "56px Arial", "#FFF");
+            gameOverText = new createjs.Text("You won! You are programmer now!", "56px Arial", "#F00");
             gameOverText.x = WIDTH / 2 - 450;
             gameOverText.y = HEIGHT / 2 - 15;
             stage.addChild(gameOverText);
             cleanStage();
         } else if (isLevelFailed()) {
-            gameOverText = new createjs.Text("Game Over", "56px Arial", "#FFF");
+            gameOverText = new createjs.Text("Game Over", "56px Arial", "#F00");
             gameOverText.x = WIDTH / 2 - 150;
-            gameOverText.y = HEIGHT / 2 - 15;
+            gameOverText.y = HEIGHT / 2 - 100;
             stage.addChild(gameOverText);
+            gameOverScore = new createjs.Text("Your score is: " + score, "56px Arial", "#F00");
+            gameOverScore.x = WIDTH / 2 - 250;
+            gameOverScore.y = HEIGHT / 2 - 10;
+            stage.addChild(gameOverScore);
             createjs.Sound.play("sound/gameOver.mp3");
             cleanStage();
         }
@@ -384,6 +389,7 @@ $(document).ready(function() {
         stage.removeChild(animation);
         stage.removeChild(crossHair);
         stage.removeChild(levelGoalText);
+        stage.removeChild(scoreText);
         clearInterval(gameTimer);
     }
     function isLevelFailed() {
@@ -392,9 +398,11 @@ $(document).ready(function() {
         }
         return false;
     }
-    function addEnemies(){
-        if(gameTime == getCurrentLevel() && gameTime > 1960){
-            $.each(enemyListObject[gameTime], function() {enemyList.push(this)});
+    function addEnemies() {
+        if (gameTime == getCurrentLevel() && gameTime > 1960) {
+            $.each(enemyListObject[gameTime], function() {
+                enemyList.push(this)
+            });
         }
     }
     function getCurrentLevel() {
