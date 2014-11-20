@@ -250,7 +250,7 @@ $(document).ready(function () {
     function handleMouseDown(event) {
 
         //Play Gunshot sound
-        createjs.Sound.play("shot");
+        createjs.Sound.play("sound/Gunshot.mp3");
 
         //Increase speed of enemy slightly
         enemyXSpeed *= 1.005;
@@ -300,7 +300,7 @@ $(document).ready(function () {
  //update part
         gameTime += 1;
         timerText.text = "Year: " + gameTime;
-        createjs.Sound.play("tick");
+        createjs.Sound.play("sound/tick.mp3");
     }
 
 //End Game and Clean up the stage
@@ -316,7 +316,7 @@ $(document).ready(function () {
             stage.addChild(gameOverText);
             stage.removeChild(animation);
             stage.removeChild(crossHair);
-            createjs.Sound.play("gameOverSound");
+            createjs.Sound.play("sound/gameOverSound.mp3");
             clearInterval(gameTimer);
         }
     }
