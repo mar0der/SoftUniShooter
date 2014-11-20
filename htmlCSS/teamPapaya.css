@@ -28,8 +28,8 @@ article{
 span{
     font-size: 50px;
     color: white;
-    padding: 30px;
-    margin-top: 100px;
+    position: relative;
+    top: 45px;
 }
 #twoArticle,#fourArticle,#sixArticle, #eightArticle {
     float:right;
@@ -50,7 +50,6 @@ span{
     text-align: right;
 }
 button{
-    margin: 0 auto;
     margin-right: 20px;
     width:167px;
     height:35px;
@@ -66,5 +65,6 @@ a{
 #buttons{
     float:left;
     margin-left: 40%;
+    margin-top: 20px;
 
 }
