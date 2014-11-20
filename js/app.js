@@ -20,15 +20,16 @@ $(document).ready(function() {
 
     var yearLength = 1000;
     var gameTime = 1960;
-    var winLevel = 2000;
+    var winLevel = 1980;
     var gameFPS = 60;
     var minGameSpeed = 1;
     var maxGameSpeed = 10;
     var timerText;
     var player;
+    var levelGoal;
     var hitPoints = 500;
-    // levels 60, 70 , 80 , 90, 2000, 2010, 2020
-    var levelsGoals = [ 0, 1000, 2000, 3000, 4000, 5000, 6000];
+
+    var levelsGoals = [0, 1000, 2000, 3000, 4000, 5000, 6000];
     var levels = [1960, 1970, 1980, 1990, 2000, 2010, 2020]
 
 
@@ -105,7 +106,7 @@ $(document).ready(function() {
         scoreText.x = 10;
         scoreText.y = 10;
         stage.addChild(scoreText);
-        
+
         //Add Score Label to the stage
 
         levelGoalText = new createjs.Text("Level goal: " + 1000, "36px Arial", "#FFF");
@@ -279,7 +280,7 @@ $(document).ready(function() {
             enemyXPos = -200;
             enemyYPos = -200;
             score += hitPoints;
-            
+
             createjs.Sound.play("deathSound");
 
             //Make it harder next time
@@ -291,56 +292,57 @@ $(document).ready(function() {
             setTimeout(createEnemy, timeToCreate);
 
         } else {
-
-            //Miss
             score -= 10;
-            scoreText.text = "Score: " + score.toString();
         }
     }
 
 //the Tick function
     function updateTime() {
         isGameover()
-        updateLabels(); 
+        updateLabels();
         gameTime += 1;
         createjs.Sound.play("tick");
         timerText.text = "Year: " + gameTime;
         createjs.Sound.play("sound/tick.mp3");
+        levelGoal = levelsGoals[levels.indexOf(Number(getCurrentLevel()))]
     }
 
 //update all labels on screen
-    function updateLabels(){
-         levelGoalText.text = "Level goal: " + levelsGoals[levels.indexOf(Number(getCurrentLevel()))+1];
-         timerText.text = "Year: " + gameTime.toString();
-         scoreText.text = "Score: " + score.toString();
+    function updateLabels() {
+        levelGoalText.text = "Level goal: " + levelsGoals[levels.indexOf(Number(getCurrentLevel())) + 1];
+        timerText.text = "Year: " + gameTime.toString();
+        scoreText.text = "Score: " + score.toString();
     }
 
-//End Game and Clean up the stage
+//End Game and Clean up the stage 
 
     function isGameover() {
-        if (getCurrentLevel() === winLevel) {
+        console.log(score + ' ' + levelGoal)
+        if (getCurrentLevel() === winLevel && score >= levelGoal) {
             gameOverText = new createjs.Text("You won! You are programmer now!", "56px Arial", "#FFF");
             gameOverText.x = WIDTH / 2 - 450;
             gameOverText.y = HEIGHT / 2 - 15;
             stage.addChild(gameOverText);
-            stage.removeChild(animation);
-            stage.removeChild(crossHair);
-            clearInterval(gameTimer);
+            cleanStage();
         } else if (isLevelFailed()) {
             gameOverText = new createjs.Text("Game Over", "56px Arial", "#FFF");
             gameOverText.x = WIDTH / 2 - 150;
             gameOverText.y = HEIGHT / 2 - 15;
             stage.addChild(gameOverText);
-            stage.removeChild(animation);
-            stage.removeChild(crossHair);
             createjs.Sound.play("sound/gameOver.mp3");
-            clearInterval(gameTimer);
+            cleanStage();
         }
     }
-    function isLevelFailed(){
-        var levelGoal = levelsGoals[levels.indexOf(Number(getCurrentLevel()))];
-        
-        if(gameTime == getCurrentLevel() && score < levelGoal){
+
+//clean stage aftet the game
+    function cleanStage() {
+        stage.removeChild(animation);
+        stage.removeChild(crossHair);
+        stage.removeChild(levelGoalText);
+        clearInterval(gameTimer);
+    }
+    function isLevelFailed() {
+        if (gameTime == getCurrentLevel() && score < levelGoal) {
             return true;
         }
         return false;
