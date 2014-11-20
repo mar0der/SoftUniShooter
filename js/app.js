@@ -304,6 +304,8 @@ $(document).ready(function() {
         updateLabels(); 
         gameTime += 1;
         createjs.Sound.play("tick");
+        timerText.text = "Year: " + gameTime;
+        createjs.Sound.play("sound/tick.mp3");
     }
 
 //update all labels on screen
@@ -331,7 +333,7 @@ $(document).ready(function() {
             stage.addChild(gameOverText);
             stage.removeChild(animation);
             stage.removeChild(crossHair);
-            createjs.Sound.play("gameOverSound");
+            createjs.Sound.play("sound/gameOver.mp3");
             clearInterval(gameTimer);
         }
     }
