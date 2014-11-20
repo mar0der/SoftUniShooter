@@ -1,0 +1,26 @@
+body{
+    font-size:20px;
+}
+#wrapper{
+    width:200px;
+    margin:0 auto;
+}
+
+li{
+    list-style-type: none;
+    border:1px solid black;
+    border-radius: 15px;
+    text-decoration: none;
+    width:150px;
+    text-align:center;
+    margin-top:10px;
+
+
+}
+a{
+    text-decoration: none;
+    color:black;
+}
+ul{
+    margin-top:350px;
+}
